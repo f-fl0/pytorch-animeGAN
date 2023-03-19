@@ -9,15 +9,16 @@ from tqdm import tqdm
 def parse_args():
     desc = "Edge smoothed"
     parser = argparse.ArgumentParser(description=desc)
+    parser.add_argument('--data-dir', type=str, default='dataset', help='Path to folder containing the datasets')
     parser.add_argument('--dataset', type=str, default='Paprika', help='dataset_name')
     parser.add_argument('--image-size', type=int, default=256, help='The size of image')
 
     return parser.parse_args()
 
 
-def make_edge_smooth(dataset_name, img_size) :
-    file_list = glob('dataset/{}/{}/*.*'.format(dataset_name, 'style'))
-    save_dir = 'dataset/{}/smooth'.format(dataset_name)
+def make_edge_smooth(data_dir, dataset_name, img_size) :
+    file_list = glob('{}/{}/style/*.*'.format(data_dir, dataset_name))
+    save_dir = '{}/{}/smooth'.format(data_dir, dataset_name)
     os.makedirs(save_dir, exist_ok=True)
 
     kernel_size = 5
@@ -57,7 +58,7 @@ def main():
     if args is None:
         exit()
 
-    make_edge_smooth(args.dataset, args.image_size)
+    make_edge_smooth(args.data_dir, args.dataset, args.image_size)
 
 
 if __name__ == '__main__':
